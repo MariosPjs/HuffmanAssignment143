@@ -19,11 +19,11 @@ public class Decode {
         String codeFile = console.nextLine();
         System.out.print("output file name? ");
         String outputFile = console.nextLine();
-        
+
         // open code file and construct tree
         Scanner codeInput = new Scanner(new File(codeFile));
         HuffmanTree t = new HuffmanTree(codeInput);
-            
+
         // open encoded file, open output, decode
         BitInputStream input = new BitInputStream(inFile);
         PrintStream output = new PrintStream(new File(outputFile));
