@@ -27,19 +27,40 @@ public class HuffmanTree {
         }
         this.overallRoot = list.remove();
      }
-     public HuffmanTree(Scanner input){
-        while(input.hasNextLine()){
-            int n = Integer.parseInt(input.nextLine());
-            String code = input.nextLine();
-            HuffmanNode node = new HuffmanNode(n,null,null);
-            // resursive method
-        }
 
+     public HuffmanTree(Scanner input){
+         overallRoot = new HuffmanNode(0,null,null);
+        while(input.hasNextLine()){
+            int character = Integer.parseInt(input.nextLine());
+            String code = input.nextLine();
+            HuffmanNode node = new HuffmanNode(character, 0,null,null);
+            // resursive method
+            overallRoot = treeBuilder(overallRoot,node,code);
+        }
+     }
+
+     public void decode(BitInputStream input, PrintStream output, int eof){
+         decodeHelper(input,output,eof,overallRoot);
      }
 
     public void write(PrintStream output){
          writeHelper(output,overallRoot,"");
     }
+
+    private void decodeHelper(BitInputStream input, PrintStream output, int eof, HuffmanNode root){
+         while(input.readBit() != -1){
+             if(overallRoot.left == null && overallRoot.right == null){
+                 output.write(overallRoot.character);
+             }else{
+                 if(input.readBit() == 0){
+                     decodeHelper(input,output,eof,overallRoot.left);
+                 }if(input.readBit() == 1){
+                     decodeHelper(input,output,eof,overallRoot.right);
+                 }
+             }
+         }
+    }
+
     private void writeHelper(PrintStream output, HuffmanNode rootNode, String location){
          if(rootNode != null){
              //base case
@@ -51,5 +72,18 @@ public class HuffmanTree {
                  writeHelper(output,rootNode.right,location + 1);
              }
          }
+    }
+
+    private HuffmanNode treeBuilder(HuffmanNode rootNode, HuffmanNode currentNode, String path){
+            if(path.length() == 0){
+                return currentNode;
+            }
+             if(path.charAt(0) == '0'){
+                    rootNode.left = treeBuilder(new HuffmanNode(0,null,null),currentNode,path.substring(1));
+             }
+             if(path.charAt(0) == '1'){
+                    rootNode.right = treeBuilder(new HuffmanNode(0,null,null),currentNode,path.substring(1));
+             }
+             return rootNode;
     }
 }

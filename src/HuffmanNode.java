@@ -17,6 +17,13 @@ public class HuffmanNode implements Comparable<HuffmanNode>{
         this.right = null;
     }
 
+    public HuffmanNode(int character, int frequency, HuffmanNode left, HuffmanNode right){
+        this.character = character;
+        this.frequency = frequency;
+        this.left = left;
+        this.right = right;
+    }
+
     public int compareTo(HuffmanNode otherNode) {
         return this.frequency - otherNode.frequency;
     }
