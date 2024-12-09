@@ -40,27 +40,32 @@ public class HuffmanTree {
      }
 
      public void decode(BitInputStream input, PrintStream output, int eof){
-         decodeHelper(input,output,eof,overallRoot);
+         int choice = input.readBit();
+         HuffmanNode traverse = overallRoot;
+         while((choice == 0 || choice == 1) && traverse.character != eof) {
+             while (traverse.left != null && traverse.right != null && traverse.character != eof) {
+                 if (choice == 0) {
+                     traverse = traverse.left;
+                     choice = input.readBit();
+                 } else if (choice == 1) {
+                     traverse = traverse.right;
+                     choice = input.readBit();
+                 }
+             }
+
+             if (traverse.character != eof) {
+                 output.write(traverse.character);
+                 System.out.println((char) traverse.character);
+                 traverse = overallRoot;
+             }
+         }
      }
+
 
     public void write(PrintStream output){
          writeHelper(output,overallRoot,"");
     }
 
-    private void decodeHelper(BitInputStream input, PrintStream output, int eof, HuffmanNode root){
-         if(root.character != eof) {
-             if (root.left == null && root.right == null) {
-                 output.write(root.character);
-             } else {
-                 if (input.readBit() == 0) {
-                     decodeHelper(input, output, eof, root.left);
-                 }
-                 if (input.readBit() == 1) {
-                     decodeHelper(input, output, eof, root.right);
-                 }
-             }
-         }
-     }
 
     private void writeHelper(PrintStream output, HuffmanNode rootNode, String location){
          if(rootNode != null){

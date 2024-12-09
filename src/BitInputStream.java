@@ -3,7 +3,8 @@
 // limitation of this approach is that the resulting file will always have
 // a number of bits that is a multiple of 8.  In effect, whatever bits are
 // output to the file are padded at the end with 0's to make the total
-// number of bits a multiple of 8.
+// number of bi
+// ts a multiple of 8.
 //
 // BitInputStream has the following public methods:
 //     public BitInputStream(String file)
